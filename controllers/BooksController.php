@@ -6,8 +6,10 @@ use Yii;
 use app\models\Books;
 use app\models\BooksSearch;
 use yii\web\Controller;
+use yii\rest\ActiveController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * BooksController implements the CRUD actions for Books model.
@@ -38,10 +40,12 @@ class BooksController extends Controller
         $searchModel = new BooksSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        YII::$app->response->format = Response::FORMAT_JSON;
+        return $dataProvider->getModels();
+       /*  return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
+        ]); */
     }
 
     /**
